@@ -761,6 +761,30 @@
         console.log("Ended");
     });
 
+    $("#btnitemdelete").click(function (){
+        let id = $("#Iid").val();
+        console.log("Started")
+        $.ajax({
+            url:"http://localhost:8080/PosSystem-JavaEE/item?itemid="+id,
+            method:"DELETE",
+            // data:data,
+            success:function (resp){
+                if (resp.status==200){
+                    alert(resp.message);
+                    loadAllItems();
+                }else if (resp.status==400){
+                    alert(resp.message);
+                }else {
+                    alert(resp.message);
+                }
+            },
+            error(ob,textstatus,error){
+                alert(textstatus);
+            }
+        });
+        console.log("Ended");
+    });
+
 
 </script>
 </body>

@@ -108,4 +108,25 @@ public class ItemServlet extends HttpServlet {
             writer.print(response.build());
         }
     }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        String id = req.getParameter("itemid");
+        PrintWriter writer = resp.getWriter();
+        boolean deleteItem = itemService.deleteItem(id);
+        if (deleteItem){
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status",200);
+            response.add("message" ,"Sucessfully deleted");
+            response.add("data","");
+            writer.print(response.build());
+        }else {
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status",400);
+            response.add("message" ,"Wrong ID inserted");
+            response.add("data","");
+            writer.print(response.build());
+        }
+    }
 }
