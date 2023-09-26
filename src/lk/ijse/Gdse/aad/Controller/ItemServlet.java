@@ -84,4 +84,28 @@ public class ItemServlet extends HttpServlet {
             writer.print(response.build());
         }
     }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        JsonReader reader = Json.createReader(req.getReader());
+        JsonObject object = reader.readObject();
+        ItemDto itemDto = new ItemDto(object.getString("id"), object.getString("desc"),
+                Double.parseDouble(object.getString("price")),Integer.parseInt(object.getString("qty")));
+        Boolean updated = itemService.updateItem(itemDto);
+        PrintWriter writer = resp.getWriter();
+        if (updated){
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status",200);
+            response.add("message" ,"Sucessfully updated");
+            response.add("data","");
+            writer.print(response.build());
+        }else {
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status",400);
+            response.add("message" ,"Wrong ID inserted");
+            response.add("data","");
+            writer.print(response.build());
+        }
+    }
 }

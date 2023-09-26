@@ -733,6 +733,34 @@
         console.log("Ended");
     });
 
+    $("#btnitemupdate").click(function (){
+        var costob ={
+            "id" : $("#Iid").val(),
+            "desc" : $("#ItemDesc").val(),
+            "price" : $("#UPrice").val(),
+            "qty" : $("#Qty").val()
+        }
+        console.log(costob);
+        $.ajax({
+            url:"http://localhost:8080/PosSystem-JavaEE/item",
+            method:"PUT",
+            contentType: "application/json",
+            data:JSON.stringify(costob),
+            success:function (resp){
+                if (resp.status==200){
+                    alert(resp.message);
+                    loadAllItems();
+                }else {
+                    alert(resp.data);
+                }
+            },
+            error(ob,textstatus,error){
+                alert(textstatus);
+            }
+        });
+        console.log("Ended");
+    });
+
 
 </script>
 </body>
