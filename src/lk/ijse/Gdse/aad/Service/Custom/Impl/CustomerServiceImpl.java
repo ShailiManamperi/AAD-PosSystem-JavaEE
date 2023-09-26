@@ -26,7 +26,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Boolean saveCustomer(CustomerDto customerDTO) throws DuplicateException {
         boolean flag = false;
         if (customerDAO.existByPk(customerDTO.getCustid())) {
-            throw new DuplicateException("This Customer id is already added!");
+            return flag;
         } else {
             flag = customerDAO.save(converter.toCustomer(customerDTO));
         }

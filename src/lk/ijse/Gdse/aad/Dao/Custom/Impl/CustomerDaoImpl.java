@@ -87,7 +87,14 @@ public class CustomerDaoImpl implements CustomerDAO {
 
     @Override
     public boolean existByPk(String pk) {
-        return false;
+        try {
+            ResultSet rst = CRUDUtil.execute("SELECT * FROM customer WHERE C_id = ?", pk);
+            return rst.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

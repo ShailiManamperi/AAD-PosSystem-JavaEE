@@ -6,9 +6,7 @@ import lk.ijse.Gdse.aad.Service.Custom.ItemService;
 import lk.ijse.Gdse.aad.Service.ServiceFactory;
 import lk.ijse.Gdse.aad.Service.ServiceTypes;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
+import javax.json.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -65,6 +63,24 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        resp.setContentType("application/json");
+        JsonReader reader = Json.createReader(req.getReader());
+        JsonObject object = reader.readObject();
+        CustomerDto customerDto= new CustomerDto(object.getString("id"),object.getString("name"),object.getString("address"),object.getString("contact"));
+        PrintWriter writer= resp.getWriter();
+        Boolean saveCustomer = customerService.saveCustomer(customerDto);
+        if (saveCustomer){
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status",200);
+            response.add("message" ,"sucessfully added customer");
+            response.add("data","");
+            writer.print(response.build());
+        }else {
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status",400);
+            response.add("message" ,"something went wrong");
+            response.add("data","");
+            writer.print(response.build());
+        }
     }
 }
