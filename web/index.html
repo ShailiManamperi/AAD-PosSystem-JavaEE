@@ -498,6 +498,7 @@
 
     loadAllCustomers();
     loadAllItems();
+    loadAllOrders();
     function loadAllCustomers(){
         $("#tblcustomer1").empty();
         console.log("Stareted")
@@ -574,6 +575,33 @@
             $("#Qty").val(qty);
         });
     }
+    function loadAllOrders(){
+        $("#tblorders").empty();
+        console.log("Stareted")
+        $.ajax({
+            url:"http://localhost:8080/PosSystem-JavaEE/orders",
+            method:"GET",
+            success:function (resp){
+                console.log(resp);
+                console.log(resp.data)
+                if (resp.status==200){
+                    for (const order of resp.data){
+                        let row1 = `<tr><td>${order.id}</td><td>${order.date}</td><td>${order.cid}</td>
+                                        <td>${order.total}</td><td>${order.discount}</td><td>${order.subtotal}</td></tr>`;
+                        $("#tblorders").append(row1);
+                    }
+                }else {
+                    alert(resp.message);
+                }
+
+            },
+            error(ob,textstatus,error){
+                alert(textstatus);
+            }
+        });
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     $("#btncustsave").click(function (){
         var costob ={
