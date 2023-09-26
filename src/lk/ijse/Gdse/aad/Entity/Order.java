@@ -9,8 +9,8 @@ public class Order implements SuperEntity{
     private double subtotal;
 
     public Order(String o_id, String c_id, String date, double total, double discount, double subtotal) {
-        O_id = o_id;
-        C_id = c_id;
+        this.O_id = o_id;
+        this.C_id = c_id;
         this.date = date;
         this.total = total;
         this.discount = discount;
