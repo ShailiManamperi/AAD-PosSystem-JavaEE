@@ -64,4 +64,16 @@ public class OrderDto {
     public void setSubtotal(double subtotal) {
         this.subtotal = subtotal;
     }
+
+    @Override
+    public String toString() {
+        return "OrderDto{" +
+                "O_id='" + O_id + '\'' +
+                ", C_id='" + C_id + '\'' +
+                ", date='" + date + '\'' +
+                ", total=" + total +
+                ", discount=" + discount +
+                ", subtotal=" + subtotal +
+                '}';
+    }
 }

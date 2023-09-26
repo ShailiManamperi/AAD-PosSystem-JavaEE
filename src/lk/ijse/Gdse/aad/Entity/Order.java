@@ -64,4 +64,16 @@ public class Order implements SuperEntity{
     public void setSubtotal(double subtotal) {
         this.subtotal = subtotal;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "O_id='" + O_id + '\'' +
+                ", C_id='" + C_id + '\'' +
+                ", date='" + date + '\'' +
+                ", total=" + total +
+                ", discount=" + discount +
+                ", subtotal=" + subtotal +
+                '}';
+    }
 }

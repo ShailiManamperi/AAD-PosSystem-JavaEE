@@ -30,7 +30,7 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public List<Order> findAll() {
         try{
-            ResultSet rst = CRUDUtil.execute("SELECT * FROM order");
+            ResultSet rst = CRUDUtil.execute("SELECT * FROM orders");
             return getOrderList(rst);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to load the items");
@@ -46,10 +46,10 @@ public class OrderDAOImpl implements OrderDAO {
                 Order e1 = new Order(
                         rst.getString(1),
                         rst.getString(2),
-                        rst.getString(3),
+                        rst.getString(6),
+                        rst.getDouble(3),
                         rst.getDouble(4),
-                        rst.getDouble(5),
-                        rst.getDouble(6));
+                        rst.getDouble(5));
                 orderList.add(e1);
             }
             return orderList;
