@@ -35,7 +35,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Boolean updateCustomer(CustomerDto customerDTO) throws NotFoundException {
-        return null;
+        if (!customerDAO.existByPk(customerDTO.getCustid())) {
+            throw new NotFoundException("Customer not found!");
+        } else {
+            customerDAO.update(converter.toCustomer(customerDTO));
+            return true;
+        }
     }
 
     @Override

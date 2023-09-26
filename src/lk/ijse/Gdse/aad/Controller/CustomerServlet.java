@@ -83,4 +83,27 @@ public class CustomerServlet extends HttpServlet {
             writer.print(response.build());
         }
     }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        JsonReader reader = Json.createReader(req.getReader());
+        JsonObject object = reader.readObject();
+        CustomerDto customerDto = new CustomerDto(object.getString("id"),object.getString("name"),object.getString("address"),object.getString("contact"));
+        Boolean updated = customerService.updateCustomer(customerDto);
+        PrintWriter writer = resp.getWriter();
+        if (updated){
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status",200);
+            response.add("message" ,"Sucessfully updated");
+            response.add("data","");
+            writer.print(response.build());
+        }else {
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status",400);
+            response.add("message" ,"Wrong ID inserted");
+            response.add("data","");
+            writer.print(response.build());
+        }
+    }
 }

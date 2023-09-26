@@ -29,7 +29,17 @@ public class CustomerDaoImpl implements CustomerDAO {
 
     @Override
     public Boolean update(Customer entity) throws ConstraintViolationException {
-        return false;
+        try {
+            String sql ="UPDATE customer SET C_name = ?, address = ?, contact = ? WHERE C_id = ?";
+            if(CRUDUtil.execute(sql,entity.getCustName(),entity.getCustName(),entity.getCustContact(),entity.getCustId())){
+                return true;
+            }
+            return false;
+        } catch (SQLException e) {
+            throw new ConstraintViolationException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

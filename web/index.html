@@ -565,6 +565,35 @@
         console.log("Ended");
     });
 
+    $("#btncustupdate").click(function (){
+        var costob ={
+            "id" : $("#cid").val(),
+            "name" : $("#CusName").val(),
+            "address" : $("#CusAddress").val(),
+            "contact" : $("#contact").val()
+        }
+        console.log(costob);
+        $.ajax({
+            url:"http://localhost:8080/PosSystem-JavaEE/customer",
+            method:"PUT",
+            contentType: "application/json",
+            data:JSON.stringify(costob),
+            success:function (resp){
+                if (resp.status==200){
+                    alert(resp.message);
+                    loadAllCustomers();
+                }else {
+                    alert(resp.data);
+                }
+            },
+            error(ob,textstatus,error){
+                alert(textstatus);
+            }
+        });
+        console.log("Ended");
+    });
+
+
 
 </script>
 </body>
