@@ -1,0 +1,88 @@
+CREATE DATABASE IF NOT EXISTS possystem;
+USE possystem;
+CREATE TABLE IF NOT EXISTS customer(
+    C_id VARCHAR(20) PRIMARY KEY,
+    C_name VARCHAR(50),
+    address TEXT,
+    contact INT
+);
+CREATE TABLE IF NOT EXISTS item(
+    I_id VARCHAR(20) PRIMARY KEY,
+    description VARCHAR(50),
+    unitprice DOUBLE,
+    qty INT
+);
+CREATE TABLE IF NOT EXISTS orders(
+    O_id VARCHAR(20) PRIMARY KEY,
+    C_id VARCHAR(20),
+    total DOUBLE,
+    discount DOUBLE,
+    subtotal DOUBLE,
+    orderdate DATE,
+    CONSTRAINT FOREIGN KEY (C_id) REFERENCES customer (C_id)
+    			ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS orderdetail(
+    O_id VARCHAR(20) ,
+    I_id VARCHAR(20),
+    qty INT,
+    total DOUBLE,
+    PRIMARY KEY(O_id,I_id),
+    CONSTRAINT FOREIGN KEY (O_id) REFERENCES orders (O_id)
+        			ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (I_id) REFERENCES item (I_id)
+        			ON DELETE CASCADE ON UPDATE CASCADE
+);
+////////////////////////////////////////////////////////////
+SHOW TABLES;
++---------------------+
+| Tables_in_possystem |
++---------------------+
+| customer            |
+| item                |
+| orderdetail         |
+| orders              |
++---------------------+
+
+DESC customer;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| C_id    | varchar(20) | NO   | PRI | NULL    |       |
+| C_name  | varchar(50) | YES  |     | NULL    |       |
+| address | text        | YES  |     | NULL    |       |
+| contact | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+DESC item;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| I_id        | varchar(20) | NO   | PRI | NULL    |       |
+| description | varchar(50) | YES  |     | NULL    |       |
+| unitprice   | double      | YES  |     | NULL    |       |
+| qty         | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+
+DESC orders;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| O_id      | varchar(20) | NO   | PRI | NULL    |       |
+| C_id      | varchar(20) | YES  | MUL | NULL    |       |
+| total     | double      | YES  |     | NULL    |       |
+| discount  | double      | YES  |     | NULL    |       |
+| subtotal  | double      | YES  |     | NULL    |       |
+| orderdate | date        | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+
+DESC orderdetail;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| O_id  | varchar(20) | NO   | PRI | NULL    |       |
+| I_id  | varchar(20) | NO   | PRI | NULL    |       |
+| qty   | int         | YES  |     | NULL    |       |
+| total | double      | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+
