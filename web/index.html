@@ -618,6 +618,30 @@
         console.log("Ended");
     });
 
+    $("#btncustsearch").click(function (){
+        console.log("Started")
+        var id = $("#cid").val();
+        $.ajax({
+            url:"http://localhost:8080/PosSystem-JavaEE/customer?option=SEARCH&CusdID="+id,
+            method:"GET",
+            success:function (resp){
+                if (resp.status==200){cid
+                    var data = resp.data;
+                    $("#cid").val(data.id);
+                    $("#CusName").val(data.name);
+                    $("#CusAddress").val(data.address);
+                    $("#contact").val(data.contact);
+                }else {
+                    alert(resp.message);
+                }
+            },
+            error(ob,textstatus,error){
+                alert(textstatus);
+            }
+        });
+        console.log("Ended");
+    });
+
 
 
 </script>
