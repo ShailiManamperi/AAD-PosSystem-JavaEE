@@ -46,19 +46,19 @@ public class ItemServlet extends HttpServlet {
                 writer.print(response.build());
                 break;
             case "SEARCH":
-//                String cusdID = req.getParameter("CusdID");
-//                ItemDto customerDto = itemService.searchItem(cusdID);
-//                JsonObjectBuilder customer1 = Json.createObjectBuilder();
-//                customer1.add("id",customerDto.getCustid());
-//                customer1.add("name",customerDto.getCustname());
-//                customer1.add("address",customerDto.getCustaddress());
-//                customer1.add("contact",customerDto.getCustcontact());
-//
-//                JsonObjectBuilder response1 = Json.createObjectBuilder();
-//                response1.add("status","200");
-//                response1.add("message" ,"Sucessfully search the customer");
-//                response1.add("data",customer1.build());
-//                writer.print(response1.build());
+                String id = req.getParameter("itemID");
+                ItemDto itemDto = itemService.searchItem(id);
+                JsonObjectBuilder item = Json.createObjectBuilder();
+                item.add("id",itemDto.getItemid());
+                item.add("desc",itemDto.getDescription());
+                item.add("price",itemDto.getUnitprice());
+                item.add("qty",itemDto.getQty());
+
+                JsonObjectBuilder response1 = Json.createObjectBuilder();
+                response1.add("status","200");
+                response1.add("message" ,"Sucessfully search the item");
+                response1.add("data",item.build());
+                writer.print(response1.build());
                 break;
         }
     }

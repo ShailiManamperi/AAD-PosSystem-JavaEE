@@ -563,7 +563,6 @@
             }
         });
     }
-
     function bindClickEvent2(){
         $("#tblitem1>tr").click(function (){
             let id = $(this).children().eq(0).text();
@@ -681,7 +680,31 @@
         });
         console.log("Ended");
     });
+//////////////////////////////////////////////////////////////////////////
 
+    $("#btnitemsearch").click(function (){
+        console.log("Started")
+        var id = $("#Iid").val();
+        $.ajax({
+            url:"http://localhost:8080/PosSystem-JavaEE/item?option=SEARCH&itemID="+id,
+            method:"GET",
+            success:function (resp){
+                if (resp.status==200){cid
+                    var data = resp.data;
+                    $("#Iid").val(data.id);
+                    $("#ItemDesc").val(data.desc);
+                    $("#UPrice").val(data.price);
+                    $("#Qty").val(data.qty);
+                }else {
+                    alert(resp.message);
+                }
+            },
+            error(ob,textstatus,error){
+                alert(textstatus);
+            }
+        });
+        console.log("Ended");
+    });
 
 
 </script>
