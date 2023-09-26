@@ -5,6 +5,7 @@ import lk.ijse.Gdse.aad.Service.Custom.CustomerService;
 import lk.ijse.Gdse.aad.Service.Custom.ItemService;
 import lk.ijse.Gdse.aad.Service.ServiceFactory;
 import lk.ijse.Gdse.aad.Service.ServiceTypes;
+import lk.ijse.Gdse.aad.Util.CRUDUtil;
 
 import javax.json.*;
 import javax.servlet.ServletException;
@@ -96,6 +97,27 @@ public class CustomerServlet extends HttpServlet {
             JsonObjectBuilder response = Json.createObjectBuilder();
             response.add("status",200);
             response.add("message" ,"Sucessfully updated");
+            response.add("data","");
+            writer.print(response.build());
+        }else {
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status",400);
+            response.add("message" ,"Wrong ID inserted");
+            response.add("data","");
+            writer.print(response.build());
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        String id = req.getParameter("CusdID");
+        PrintWriter writer = resp.getWriter();
+        boolean deleteCustomer = customerService.deleteCustomer(id);
+        if (deleteCustomer){
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status",200);
+            response.add("message" ,"Sucessfully deleted");
             response.add("data","");
             writer.print(response.build());
         }else {

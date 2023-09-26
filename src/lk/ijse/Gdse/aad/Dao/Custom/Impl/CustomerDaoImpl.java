@@ -1,5 +1,6 @@
 package lk.ijse.Gdse.aad.Dao.Custom.Impl;
 
+import lk.ijse.Gdse.aad.Dao.CrudDAO;
 import lk.ijse.Gdse.aad.Dao.Custom.CustomerDAO;
 import lk.ijse.Gdse.aad.Dao.exception.ConstraintViolationException;
 import lk.ijse.Gdse.aad.Entity.Customer;
@@ -44,6 +45,16 @@ public class CustomerDaoImpl implements CustomerDAO {
 
     @Override
     public boolean deleteByPk(String pk) throws ConstraintViolationException {
+        try {
+            if(CRUDUtil.execute("DELETE FROM customer WHERE C_id=?",pk)){
+                return true;
+            }
+
+        } catch (SQLException e) {
+            throw new ConstraintViolationException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         return false;
     }
 

@@ -593,6 +593,31 @@
         console.log("Ended");
     });
 
+    $("#btncustdelete").click(function (){
+        let custid = $("#cid").val();
+        console.log(custid)
+        console.log("Started")
+        $.ajax({
+            url:"http://localhost:8080/PosSystem-JavaEE/customer?CusdID="+custid,
+            method:"DELETE",
+            // data:data,
+            success:function (resp){
+                if (resp.status==200){
+                    alert(resp.message);
+                    loadAllCustomers();
+                }else if (resp.status==400){
+                    alert(resp.message);
+                }else {
+                    alert(resp.message);
+                }
+            },
+            error(ob,textstatus,error){
+                alert(textstatus);
+            }
+        });
+        console.log("Ended");
+    });
+
 
 
 </script>

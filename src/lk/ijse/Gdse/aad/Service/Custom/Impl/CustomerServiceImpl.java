@@ -50,7 +50,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public boolean deleteCustomer(String id) throws NotFoundException {
-        return false;
+        if (!customerDAO.existByPk(id)){
+            throw new NotFoundException("This customer id is not found");
+        }
+        return customerDAO.deleteByPk(id);
     }
 
     @Override
