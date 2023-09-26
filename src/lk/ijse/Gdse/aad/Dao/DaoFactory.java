@@ -19,9 +19,10 @@ public class DaoFactory {
                 return (T)new CustomerDaoImpl();
             case ITEM:
                 return (T)new itemDAOImpl();
+            case ORDER:
+                return (T) new OrderDAOImpl();
             default:
                 return null;
-
         }
 
     }
