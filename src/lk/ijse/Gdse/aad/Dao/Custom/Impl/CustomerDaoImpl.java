@@ -32,7 +32,7 @@ public class CustomerDaoImpl implements CustomerDAO {
     public Boolean update(Customer entity) throws ConstraintViolationException {
         try {
             String sql ="UPDATE customer SET C_name = ?, address = ?, contact = ? WHERE C_id = ?";
-            if(CRUDUtil.execute(sql,entity.getCustName(),entity.getCustName(),entity.getCustContact(),entity.getCustId())){
+            if(CRUDUtil.execute(sql,entity.getCustName(),entity.getCustAddress(),entity.getCustContact(),entity.getCustId())){
                 return true;
             }
             return false;
