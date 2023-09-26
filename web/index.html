@@ -497,6 +497,7 @@
     });
 
     loadAllCustomers();
+    loadAllItems();
     function loadAllCustomers(){
         $("#tblcustomer1").empty();
         console.log("Stareted")
@@ -523,7 +524,6 @@
             }
         });
     }
-
     function bindClickEvent(){
         $("#tblcustomer1>tr").click(function (){
             let id = $(this).children().eq(0).text();
@@ -534,6 +534,46 @@
             $("#CusName").val(name);
             $("#CusAddress").val(address);
             $("#contact").val(contact);
+        });
+    }
+
+    function loadAllItems(){
+        $("#tblitem1").empty();
+        console.log("Stareted")
+        $.ajax({
+            url:"http://localhost:8080/PosSystem-JavaEE/item?option=GETALL",
+            method:"GET",
+            success:function (resp){
+                console.log(resp);
+                console.log(resp.data)
+                if (resp.status==200){
+                    for (const item of resp.data){
+                        console.log(item.id,item.desc,item.unitprice,item.qty);
+                        let row1 = `<tr><td>${item.id}</td><td>${item.desc}</td><td>${item.unitprice}</td><td>${item.qty}</td></tr>`;
+                        $("#tblitem1").append(row1);
+                    }
+                    bindClickEvent2();
+                }else {
+                    alert(resp.message);
+                }
+
+            },
+            error(ob,textstatus,error){
+                alert(textstatus);
+            }
+        });
+    }
+
+    function bindClickEvent2(){
+        $("#tblitem1>tr").click(function (){
+            let id = $(this).children().eq(0).text();
+            let desc = $(this).children().eq(1).text();
+            let price = $(this).children().eq(2).text();
+            let qty = $(this).children().eq(3).text();
+            $("#Iid").val(id);
+            $("#ItemDesc").val(desc);
+            $("#UPrice").val(price);
+            $("#Qty").val(qty);
         });
     }
 
