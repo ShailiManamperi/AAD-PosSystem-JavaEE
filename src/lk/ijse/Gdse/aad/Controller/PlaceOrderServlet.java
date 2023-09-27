@@ -28,7 +28,7 @@ public class PlaceOrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
-        JsonArrayBuilder customers  = Json.createArrayBuilder();
+        JsonArrayBuilder arrayBuilder  = Json.createArrayBuilder();
         String option = req.getParameter("option");
         PrintWriter writer = resp.getWriter();
         switch (option){
@@ -37,27 +37,25 @@ public class PlaceOrderServlet extends HttpServlet {
                 for (String id: allCustomers) {
                     JsonObjectBuilder customer = Json.createObjectBuilder();
                     customer.add("id",id);
-                    customers.add(customer.build());
+                    arrayBuilder.add(customer.build());
                 }
                 JsonObjectBuilder response = Json.createObjectBuilder();
                 response.add("status","200");
-                response.add("message" ,"Sucessfully get all customers");
-                response.add("data",customers.build());
+                response.add("message" ,"Sucessfully get all arrayBuilder");
+                response.add("data",arrayBuilder.build());
                 writer.print(response.build());
                 break;
             case "ITEM":
-                String cusdID = req.getParameter("CusdID");
-                CustomerDto customerDto = customerService.searchCustomer(cusdID);
-                JsonObjectBuilder customer1 = Json.createObjectBuilder();
-                customer1.add("id",customerDto.getCustid());
-                customer1.add("name",customerDto.getCustname());
-                customer1.add("address",customerDto.getCustaddress());
-                customer1.add("contact",customerDto.getCustcontact());
-
+                List<String> allItemsid = itemService.getAllItemsid();
+                for (String id: allItemsid) {
+                    JsonObjectBuilder item = Json.createObjectBuilder();
+                    item.add("id",id);
+                    arrayBuilder.add(item.build());
+                }
                 JsonObjectBuilder response1 = Json.createObjectBuilder();
                 response1.add("status","200");
-                response1.add("message" ,"Sucessfully search the customer");
-                response1.add("data",customer1.build());
+                response1.add("message" ,"Sucessfully get all arrayBuilder");
+                response1.add("data",arrayBuilder.build());
                 writer.print(response1.build());
                 break;
         }

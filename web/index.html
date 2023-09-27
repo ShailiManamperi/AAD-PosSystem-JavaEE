@@ -303,17 +303,13 @@
                     <div class="input-group">
                         <span class="input-group-text">CustomerID</span>
                         <select class="form-select" aria-label="Default select example" id="cmbcustomer">
-<!--                            <option selected>Select ID</option>-->
-<!--                            <option value="1">C001</option>-->
-<!--                            <option value="2">C002</option>-->
-<!--                            <option value="3">C003</option>-->
                         </select>
                     </div>
                 </div>
                 <div class="col">
                     <div class="input-group">
                         <span class="input-group-text">Customer Name</span>
-                        <input class="form-control" type="text" placeholder="" aria-label="Disabled input example" disabled>
+                        <input ID="custname" class="form-control" type="text" placeholder="" aria-label="Disabled input example" disabled>
                     </div>
                 </div>
 
@@ -323,11 +319,7 @@
                 <div class="col">
                     <div class="input-group">
                         <span class="input-group-text">Item ID</span>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Select ID</option>
-                            <option value="1">I001</option>
-                            <option value="2">I002</option>
-                            <option value="3">I003</option>
+                        <select class="form-select" aria-label="Default select example" id="cmbitem">
                         </select>
                     </div>
                 </div>
@@ -335,21 +327,21 @@
                 <div class="col">
                     <div class="input-group">
                         <span class="input-group-text">Description</span>
-                        <input class="form-control" type="text" placeholder="" aria-label="Disabled input example" disabled>
+                        <input id="desc" class="form-control" type="text" placeholder="" aria-label="Disabled input example" disabled>
                     </div>
                 </div>
 
                 <div class="col">
                     <div class="input-group">
                         <span class="input-group-text">Qty On Hand</span>
-                        <input class="form-control" type="text" placeholder="" aria-label="Disabled input example" disabled>
+                        <input id="qtyhand" class="form-control" type="text" placeholder="" aria-label="Disabled input example" disabled>
                     </div>
                 </div>
 
                 <div class="col">
                     <div class="input-group">
                         <span class="input-group-text">Unit Price</span>
-                        <input class="form-control" type="text" placeholder="" aria-label="Disabled input example" disabled>
+                        <input id="price" class="form-control" type="text" placeholder="" aria-label="Disabled input example" disabled>
                     </div>
                 </div>
 
@@ -499,6 +491,7 @@
     loadAllCustomers();
     loadAllItems();
     loadAllOrders();
+    loadAllitemid();
     loadAllcustomerid();
     function loadAllCustomers(){
         $("#tblcustomer1").empty();
@@ -614,7 +607,30 @@
         });
     }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    function loadAllitemid(){
+        $.ajax({
+            url:"http://localhost:8080/PosSystem-JavaEE/placeorder?option=ITEM",
+            method:"GET",
+            success:function (resp){//resp==data
+                if (resp.status==200){
+                    var comboBox = $('#cmbitem');
+                    $.each(resp.data, function(index, value) {
+                        console.log(value)
+                        comboBox.append($('<option>').text(value.id));
+                    });
+                }else {
+                    alert(resp.message);
+                }
+
+            },
+            error(ob,textstatus,error){
+                alert(textstatus);
+            }
+        });
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     $("#btncustsave").click(function (){
         var costob ={
@@ -633,6 +649,7 @@
                 if (resp.status==200){
                     alert(resp.message);
                     loadAllCustomers();
+                    loadAllcustomerid();
                 }else {
                     alert(resp.data);
                 }
@@ -763,6 +780,7 @@
                 if (resp.status==200){
                     alert(resp.message);
                     loadAllItems();
+                    loadAllitemid();
                 }else {
                     alert(resp.data);
                 }
@@ -828,6 +846,45 @@
 
 /////////////////////////////////////////////////////////////////////////////
 
+    $("#cmbcustomer").click(function (){
+        var id = $(this).val();
+        $.ajax({
+            url:"http://localhost:8080/PosSystem-JavaEE/customer?option=SEARCH&CusdID="+id,
+            method:"GET",
+            success:function (resp){
+                if (resp.status==200){cid
+                    var data = resp.data;
+                    $("#custname").val(data.name);
+                }else {
+                    alert(resp.message);
+                }
+            },
+            error(ob,textstatus,error){
+                alert(textstatus);
+            }
+        });
+    });
+
+    $("#cmbitem").click(function (){
+        var id = $(this).val();
+        $.ajax({
+            url:"http://localhost:8080/PosSystem-JavaEE/item?option=SEARCH&itemID="+id,
+            method:"GET",
+            success:function (resp){
+                if (resp.status==200){cid
+                    var data = resp.data;
+                    $("#desc").val(data.desc);
+                    $("#price").val(data.price);
+                    $("#qtyhand").val(data.qty);
+                }else {
+                    alert(resp.message);
+                }
+            },
+            error(ob,textstatus,error){
+                alert(textstatus);
+            }
+        });
+    });
 
 
 
