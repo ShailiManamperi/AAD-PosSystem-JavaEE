@@ -14,6 +14,11 @@ public class Item implements SuperEntity{
         this.qty = qty;
     }
 
+    public Item(int qty, String itemid) {
+        this.Itemid=itemid;
+        this.qty=qty;
+    }
+
     public String getItemid() {
         return Itemid;
     }

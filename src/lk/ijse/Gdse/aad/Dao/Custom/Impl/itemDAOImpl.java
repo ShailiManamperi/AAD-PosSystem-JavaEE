@@ -2,8 +2,10 @@ package lk.ijse.Gdse.aad.Dao.Custom.Impl;
 
 import lk.ijse.Gdse.aad.Dao.Custom.ItemDAO;
 import lk.ijse.Gdse.aad.Dao.exception.ConstraintViolationException;
+import lk.ijse.Gdse.aad.Entity.CartDetail;
 import lk.ijse.Gdse.aad.Entity.Customer;
 import lk.ijse.Gdse.aad.Entity.Item;
+import lk.ijse.Gdse.aad.Entity.PlaceOrder;
 import lk.ijse.Gdse.aad.Util.CRUDUtil;
 
 import java.sql.ResultSet;
@@ -122,5 +124,35 @@ public class itemDAOImpl implements ItemDAO {
     @Override
     public long count() {
         return 0;
+    }
+
+    @Override
+    public boolean updateQty(ArrayList<CartDetail> cartDetails) throws SQLException, ClassNotFoundException {
+        for (CartDetail cartDetail : cartDetails) {
+            if (!updateQty(new Item(cartDetail.getQty(),cartDetail.getItemid()))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean saveOrderDetails(ArrayList<CartDetail> cartDetails, PlaceOrder placeOrder) throws SQLException, ClassNotFoundException {
+        for (CartDetail cartDetail : cartDetails) {
+            if (!save(cartDetail,placeOrder)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean save(CartDetail cartDetail, PlaceOrder placeOrder) throws SQLException, ClassNotFoundException {
+        String sql = "INSERT INTO orderdetail VALUES(?, ?, ?,?)";
+        return CRUDUtil.execute(sql,placeOrder.getO_id(),cartDetail.getItemid(),cartDetail.getQty(),cartDetail.getPrice() );
+    }
+
+    private boolean updateQty(Item item) throws SQLException, ClassNotFoundException {
+        String sql = "UPDATE item SET qty = qty - ? WHERE I_id = ?";
+        return CRUDUtil.execute(sql,item.getQty(),item.getItemid());
     }
 }

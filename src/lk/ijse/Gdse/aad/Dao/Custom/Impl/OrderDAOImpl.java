@@ -14,7 +14,17 @@ import java.util.List;
 public class OrderDAOImpl implements OrderDAO {
     @Override
     public Boolean save(Order entity) throws ConstraintViolationException {
-        return null;
+        try {
+            if(CRUDUtil.execute("INSERT INTO orders VALUES (?,?,?,?,?,?);",
+                    entity.getO_id(),entity.getC_id(),entity.getTotal(),entity.getDiscount(),entity.getSubtotal(),entity.getDate())){
+                return true;
+            }
+            return false;
+        }catch (SQLException e){
+            throw new ConstraintViolationException(e);
+        } catch (ClassNotFoundException e) {
+            throw new ConstraintViolationException(e);
+        }
     }
 
     @Override
