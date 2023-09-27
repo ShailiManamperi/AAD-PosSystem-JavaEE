@@ -146,6 +146,26 @@ public class itemDAOImpl implements ItemDAO {
         return true;
     }
 
+    @Override
+    public List<String> findItemIdList() {
+        try{
+            ResultSet rst = CRUDUtil.execute("SELECT I_id FROM item");
+            return getItemIdList(rst);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to load the item");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private List<String> getItemIdList(ResultSet rst) throws SQLException {
+        List<String> itemIdList= new ArrayList<>();
+        while (rst.next()){
+            itemIdList.add(rst.getString(1));
+        }
+        return itemIdList;
+    }
+
     private boolean save(CartDetail cartDetail, PlaceOrder placeOrder) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO orderdetail VALUES(?, ?, ?,?)";
         return CRUDUtil.execute(sql,placeOrder.getO_id(),cartDetail.getItemid(),cartDetail.getQty(),cartDetail.getPrice() );

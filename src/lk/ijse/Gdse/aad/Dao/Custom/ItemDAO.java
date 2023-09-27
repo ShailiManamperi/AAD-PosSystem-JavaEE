@@ -8,9 +8,12 @@ import lk.ijse.Gdse.aad.Entity.PlaceOrder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface ItemDAO extends CrudDAO<Item,String> {
     public  boolean updateQty(ArrayList<CartDetail> cartDetails) throws SQLException, ClassNotFoundException;
 
     public  boolean saveOrderDetails(ArrayList<CartDetail> cartDetails, PlaceOrder placeOrder) throws SQLException, ClassNotFoundException;
+
+    public List<String> findItemIdList();
 }

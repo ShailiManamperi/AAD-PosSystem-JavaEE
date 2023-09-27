@@ -68,4 +68,9 @@ public class ItemServiceImpl implements ItemService {
         }
         return ItemDtolist;
     }
+
+    @Override
+    public List<String> getAllItemsid() throws NotFoundException {
+        return itemDAO.findItemIdList();
+    }
 }

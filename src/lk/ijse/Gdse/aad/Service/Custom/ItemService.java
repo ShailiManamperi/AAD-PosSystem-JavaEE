@@ -7,6 +7,7 @@ import lk.ijse.Gdse.aad.Service.exception.DuplicateException;
 import lk.ijse.Gdse.aad.Service.exception.NotFoundException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface ItemService extends SuperService {
     public Boolean saveItem(ItemDto itemDto) throws DuplicateException;
@@ -18,4 +19,6 @@ public interface ItemService extends SuperService {
     public boolean deleteItem(String id) throws  NotFoundException;
 
     public ArrayList<ItemDto> getAllItems() throws NotFoundException;
+
+    public List<String> getAllItemsid() throws NotFoundException;
 }
