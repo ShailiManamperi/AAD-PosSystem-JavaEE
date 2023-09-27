@@ -66,4 +66,10 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return customerDtoList;
     }
+
+    @Override
+    public List<String> getAllCustomerId() throws NotFoundException {
+        List<String> customerIdList = customerDAO.findCustomerIdList();
+        return customerIdList;
+    }
 }

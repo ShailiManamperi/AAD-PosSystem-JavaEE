@@ -302,11 +302,11 @@
                 <div class="col">
                     <div class="input-group">
                         <span class="input-group-text">CustomerID</span>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Select ID</option>
-                            <option value="1">C001</option>
-                            <option value="2">C002</option>
-                            <option value="3">C003</option>
+                        <select class="form-select" aria-label="Default select example" id="cmbcustomer">
+<!--                            <option selected>Select ID</option>-->
+<!--                            <option value="1">C001</option>-->
+<!--                            <option value="2">C002</option>-->
+<!--                            <option value="3">C003</option>-->
                         </select>
                     </div>
                 </div>
@@ -499,15 +499,13 @@
     loadAllCustomers();
     loadAllItems();
     loadAllOrders();
+    loadAllcustomerid();
     function loadAllCustomers(){
         $("#tblcustomer1").empty();
-        console.log("Stareted")
         $.ajax({
             url:"http://localhost:8080/PosSystem-JavaEE/customer?option=GETALL",
             method:"GET",
             success:function (resp){
-                console.log(resp);
-                console.log(resp.data)
                 if (resp.status==200){
                     for (const customer of resp.data){
                         console.log(customer.id,customer.name,customer.address,customer.contact)
@@ -539,16 +537,12 @@
     }
     function loadAllItems(){
         $("#tblitem1").empty();
-        console.log("Stareted")
         $.ajax({
             url:"http://localhost:8080/PosSystem-JavaEE/item?option=GETALL",
             method:"GET",
             success:function (resp){
-                console.log(resp);
-                console.log(resp.data)
                 if (resp.status==200){
                     for (const item of resp.data){
-                        console.log(item.id,item.desc,item.unitprice,item.qty);
                         let row1 = `<tr><td>${item.id}</td><td>${item.desc}</td><td>${item.unitprice}</td><td>${item.qty}</td></tr>`;
                         $("#tblitem1").append(row1);
                     }
@@ -577,19 +571,38 @@
     }
     function loadAllOrders(){
         $("#tblorders").empty();
-        console.log("Stareted")
         $.ajax({
             url:"http://localhost:8080/PosSystem-JavaEE/orders",
             method:"GET",
             success:function (resp){
-                console.log(resp);
-                console.log(resp.data)
                 if (resp.status==200){
                     for (const order of resp.data){
                         let row1 = `<tr><td>${order.id}</td><td>${order.date}</td><td>${order.cid}</td>
                                         <td>${order.total}</td><td>${order.discount}</td><td>${order.subtotal}</td></tr>`;
                         $("#tblorders").append(row1);
                     }
+                }else {
+                    alert(resp.message);
+                }
+
+            },
+            error(ob,textstatus,error){
+                alert(textstatus);
+            }
+        });
+    }
+
+    function loadAllcustomerid(){
+        $.ajax({
+            url:"http://localhost:8080/PosSystem-JavaEE/placeorder?option=CUSTOMER",
+            method:"GET",
+            success:function (resp){//resp==data
+                if (resp.status==200){
+                    var comboBox = $('#cmbcustomer');
+                    $.each(resp.data, function(index, value) {
+                        console.log(value)
+                        comboBox.append($('<option>').text(value.id));
+                    });
                 }else {
                     alert(resp.message);
                 }

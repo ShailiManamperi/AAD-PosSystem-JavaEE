@@ -129,7 +129,22 @@ public class CustomerDaoImpl implements CustomerDAO {
     }
 
     @Override
-    public String findNewCustomerId() {
-        return null;
+    public List<String> findCustomerIdList() {
+        try{
+            ResultSet rst = CRUDUtil.execute("SELECT C_id FROM customer");
+            return getCustomerIdList(rst);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to load the customers");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private List<String> getCustomerIdList(ResultSet rst) throws SQLException {
+        List<String> customerIdList= new ArrayList<>();
+        while (rst.next()){
+            customerIdList.add(rst.getString(1));
+        }
+        return customerIdList;
     }
 }

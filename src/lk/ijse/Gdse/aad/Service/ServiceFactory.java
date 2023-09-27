@@ -3,8 +3,8 @@ package lk.ijse.Gdse.aad.Service;
 
 import lk.ijse.Gdse.aad.Service.Custom.Impl.CustomerServiceImpl;
 import lk.ijse.Gdse.aad.Service.Custom.Impl.ItemServiceImpl;
-import lk.ijse.Gdse.aad.Service.Custom.Impl.OrderDetailServiceImpl;
 import lk.ijse.Gdse.aad.Service.Custom.Impl.OrderServiceImpl;
+import lk.ijse.Gdse.aad.Service.Custom.Impl.PlaceOrderServiceImpl;
 
 public class ServiceFactory {
 
@@ -25,8 +25,8 @@ public class ServiceFactory {
                 return (T) new OrderServiceImpl();
             case ITEM:
                 return (T) new ItemServiceImpl();
-            case ORDERDETAIL:
-                return (T) new OrderDetailServiceImpl();
+            case PLACEORDER:
+                return (T) new PlaceOrderServiceImpl();
             default:
                 return null;
         }
