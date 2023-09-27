@@ -3,9 +3,11 @@ package lk.ijse.Gdse.aad.Util;
 import lk.ijse.Gdse.aad.Dto.CustomerDto;
 import lk.ijse.Gdse.aad.Dto.ItemDto;
 import lk.ijse.Gdse.aad.Dto.OrderDto;
+import lk.ijse.Gdse.aad.Dto.PlaceOrderDto;
 import lk.ijse.Gdse.aad.Entity.Customer;
 import lk.ijse.Gdse.aad.Entity.Item;
 import lk.ijse.Gdse.aad.Entity.Order;
+import lk.ijse.Gdse.aad.Entity.PlaceOrder;
 
 public class Converter {
     public CustomerDto fromCustomer(Customer customer){
@@ -31,12 +33,12 @@ public class Converter {
     public Order toOrder(OrderDto orderDTO){
         return new Order(orderDTO.getO_id(),orderDTO.getC_id(),orderDTO.getDate(),orderDTO.getTotal(),orderDTO.getDiscount(),orderDTO.getSubtotal());
     }
-//
-//    public PlaceOrderDTO fromPlaceOrder(PlaceOrder placeOrder){
-//        return new PlaceOrderDTO(placeOrder.getOid(),placeOrder.getDate(),placeOrder.getCid(),placeOrder.getStatus(),placeOrder.getPrice(),placeOrder.getOrderDetails());
-//    }
-//
-//    public PlaceOrder toPlaceOrder(PlaceOrderDTO placeOrderDTO){
-//        return new PlaceOrder(placeOrderDTO.getOid(), placeOrderDTO.getDate(), placeOrderDTO.getCid(), placeOrderDTO.getStatus(), placeOrderDTO.getPrice(), placeOrderDTO.getOrderDetails());
-//    }
+
+    public PlaceOrderDto fromPlaceOrder(PlaceOrder placeOrder){
+        return new PlaceOrderDto(placeOrder.getO_id(), placeOrder.getC_id(), placeOrder.getDate(), placeOrder.getOrderdetail());
+    }
+
+    public PlaceOrder toPlaceOrder(PlaceOrderDto placeOrderDTO){
+        return new PlaceOrder(placeOrderDTO.getO_id(), placeOrderDTO.getC_id(), placeOrderDTO.getDate(), placeOrderDTO.getOrderdetail());
+    }
 }

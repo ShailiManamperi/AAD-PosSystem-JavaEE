@@ -1,14 +1,16 @@
 package lk.ijse.Gdse.aad.Dto;
 
+import lk.ijse.Gdse.aad.Entity.CartDetail;
+
 import java.util.ArrayList;
 
 public class PlaceOrderDto {
     private String O_id;
     private String C_id;
     private String date;
-    private ArrayList<CartDetailDto> orderdetail = new ArrayList<>();
+    private ArrayList<CartDetail> orderdetail = new ArrayList<>();
 
-    public PlaceOrderDto(String o_id, String c_id, String date, ArrayList<CartDetailDto> orderdetail) {
+    public PlaceOrderDto(String o_id, String c_id, String date, ArrayList<CartDetail> orderdetail) {
         O_id = o_id;
         C_id = c_id;
         this.date = date;
@@ -39,11 +41,11 @@ public class PlaceOrderDto {
         this.date = date;
     }
 
-    public ArrayList<CartDetailDto> getOrderdetail() {
+    public ArrayList<CartDetail> getOrderdetail() {
         return orderdetail;
     }
 
-    public void setOrderdetail(ArrayList<CartDetailDto> orderdetail) {
+    public void setOrderdetail(ArrayList<CartDetail> orderdetail) {
         this.orderdetail = orderdetail;
     }
 }
