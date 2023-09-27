@@ -9,12 +9,18 @@ public class PlaceOrder implements SuperEntity{
     private String O_id;
     private String C_id;
     private String date;
+    private double total;
+    private double discount;
+    private double subtotal;
     private ArrayList<CartDetail> orderdetail = new ArrayList<>();
 
-    public PlaceOrder(String o_id, String c_id, String date, ArrayList<CartDetail> orderdetail) {
+    public PlaceOrder(String o_id, String c_id, String date, double total, double discount, double subtotal, ArrayList<CartDetail> orderdetail) {
         O_id = o_id;
         C_id = c_id;
         this.date = date;
+        this.total = total;
+        this.discount = discount;
+        this.subtotal = subtotal;
         this.orderdetail = orderdetail;
     }
 
@@ -40,6 +46,30 @@ public class PlaceOrder implements SuperEntity{
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
     }
 
     public ArrayList<CartDetail> getOrderdetail() {

@@ -35,10 +35,10 @@ public class Converter {
     }
 
     public PlaceOrderDto fromPlaceOrder(PlaceOrder placeOrder){
-        return new PlaceOrderDto(placeOrder.getO_id(), placeOrder.getC_id(), placeOrder.getDate(), placeOrder.getOrderdetail());
+        return new PlaceOrderDto(placeOrder.getO_id(), placeOrder.getC_id(), placeOrder.getDate(), placeOrder.getTotal(), placeOrder.getDiscount(), placeOrder.getSubtotal(), placeOrder.getOrderdetail());
     }
 
     public PlaceOrder toPlaceOrder(PlaceOrderDto placeOrderDTO){
-        return new PlaceOrder(placeOrderDTO.getO_id(), placeOrderDTO.getC_id(), placeOrderDTO.getDate(), placeOrderDTO.getOrderdetail());
+        return new PlaceOrder(placeOrderDTO.getO_id(), placeOrderDTO.getC_id(), placeOrderDTO.getDate(), placeOrderDTO.getTotal(), placeOrderDTO.getDiscount(), placeOrderDTO.getSubtotal(), placeOrderDTO.getOrderdetail());
     }
 }
