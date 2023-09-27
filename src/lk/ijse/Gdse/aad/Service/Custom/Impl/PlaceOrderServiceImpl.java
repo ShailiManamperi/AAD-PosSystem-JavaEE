@@ -4,12 +4,16 @@ import lk.ijse.Gdse.aad.Dao.Custom.*;
 import lk.ijse.Gdse.aad.Dao.DaoFactory;
 import lk.ijse.Gdse.aad.Dao.DaoTypes;
 import lk.ijse.Gdse.aad.Db.DBConnection;
+import lk.ijse.Gdse.aad.Dto.OrderDto;
 import lk.ijse.Gdse.aad.Dto.PlaceOrderDto;
+import lk.ijse.Gdse.aad.Entity.CartDetail;
+import lk.ijse.Gdse.aad.Entity.Order;
 import lk.ijse.Gdse.aad.Service.Custom.PlaceOrderService;
 import lk.ijse.Gdse.aad.Util.Converter;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PlaceOrderServiceImpl implements PlaceOrderService {
     private final Connection connection;
@@ -27,25 +31,27 @@ public class PlaceOrderServiceImpl implements PlaceOrderService {
     public boolean PlaceOrder(PlaceOrderDto placeOrder) throws SQLException, ClassNotFoundException {
         try {
             DBConnection.getConnection().setAutoCommit(false);
-            Order order = converter.toOrder(new OrderDTO(placeOrder.getOid(), placeOrder.getDate(), placeOrder.getCid(), placeOrder.getStatus(), placeOrder.getPrice()));
-            Order save = orderDAO.save(order);
-            if (save != null) {
-                boolean isUpdated = itemDAO.updateQty(placeOrder.getOrderDetails());
+            Order order = converter.toOrder(new OrderDto(placeOrder.getO_id(), placeOrder.getC_id(), placeOrder.getDate(),
+                    placeOrder.getTotal(), placeOrder.getDiscount(), placeOrder.getSubtotal()));
+            Boolean save = orderDAO.save(order);
+            if (save) {
+                System.out.println("order saved in order table");
+                boolean isUpdated = itemDAO.updateQty(placeOrder.getOrderdetail());
                 if (isUpdated) {
-                    boolean issaved = itemDAO.saveOrderDetails(placeOrder.getOrderDetails(), converter.toPlaceOrder(placeOrder));
+                    System.out.println("update item qty");
+                    boolean issaved = itemDAO.saveOrderDetails(placeOrder.getOrderdetail(), converter.toPlaceOrder(placeOrder));
                     if (issaved) {
-                        boolean saveDelivery = deliveryDAO.saveHaveDelivery(converter.toDelivery(deliveryDTO));
-                        if (saveDelivery) {
-                            DBConnection.getDbConnection().getConnection().commit();
-                            return true;
-                        }
+                        System.out.println("order saved in orderdetail table");
+                        DBConnection.getConnection().commit();
+                        return true;
                     }
                 }
             }
-            DBConnection.getDbConnection().getConnection().rollback();
+
+            DBConnection.getConnection().rollback();
             return false;
         } finally {
-            DBConnection.getDbConnection().getConnection().setAutoCommit(true);
+            DBConnection.getConnection().setAutoCommit(true);
         }
     }
 }
